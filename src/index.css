@@ -1,3 +1,25 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -9,7 +31,7 @@
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    rgba(0, 0, 0, 0.1) 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -30,33 +52,30 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
 body {
   margin: 0;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  transition: background 0.3s ease, color 0.3s ease !important;
 }
 
+:root.dark {
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-border: rgba(192, 132, 252, 0.5);
+  --social-bg: rgba(47, 48, 58, 0.5);
+  --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+}
+
+
 #root {
-  width: 1126px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1126px;
   margin: 0 auto;
   text-align: center;
   border-inline: 1px solid var(--border);
@@ -64,6 +83,49 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  padding: 0 16px;
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 16px;
+  }
+
+  #root {
+    padding: 0 12px;
+  }
+
+  h1 {
+    font-size: 28px !important;
+    margin: 16px 0 !important;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  .display-4, .display-5 {
+    font-size: 28px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 17px;
+  }
+
+  #root {
+    padding: 0 20px;
+  }
+
+  h1 {
+    font-size: 32px !important;
+    margin: 20px 0 !important;
+  }
+
+  .display-4, .display-5 {
+    font-size: 32px !important;
+  }
 }
 
 h1,

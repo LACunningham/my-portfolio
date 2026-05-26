@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "titulo": "Mi Portafolio",
+    "descripcion": "Portafolio personal desarrollado con React y Vite. Incluye páginas de inicio, sobre mí, proyectos y contacto con tema dark/light.",
+    "tecnologias": ["React", "Vite", "Bootstrap 5", "React Router"],
+    "enlace": "https://github.com/tuusuario/mi-portafolio",
+    "imagen": "https://via.placeholder.com/300x200?text=Portafolio"
+  }
+]

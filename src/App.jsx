@@ -1,24 +1,36 @@
 import { Routes, Route } from 'react-router-dom';
-import { useLocalStorage } from './hooks/useLocalStorage.jsx'; // Recordá crear este archivo adentro de tu carpeta hooks
+import { useEffect } from 'react';
+import { useLocalStorage } from './hooks/useLocalStorage.jsx';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
-import {AboutPage} from './pages/AboutPage';
+import { AboutPage } from './pages/AboutPage';
 import ProjectsPage from './pages/ProjectsPage';
-import {ContactPage} from './pages/ContactPage';
+import { ContactPage } from './pages/ContactPage';
 
 function App() {
   const [tema, setTema] = useLocalStorage('theme', 'light');
+
+  useEffect(() => {
+    if (tema === 'dark') {
+      // Activa tu CSS personalizado
+      document.documentElement.classList.add('dark');
+      // Activa el modo oscuro interno de Bootstrap
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+      // Desactiva tu CSS personalizado
+      document.documentElement.classList.remove('dark');
+      // Activa el modo claro interno de Bootstrap
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+    }
+  }, [tema]);
 
   const toggleTema = () => {
     setTema((prevTema) => (prevTema === 'light' ? 'dark' : 'light'));
   };
 
   return (
-    <div className={tema === 'dark' ? 'bg-dark text-white min-vh-100' : 'bg-light text-dark min-vh-100'}>
-      {/* Pasamos el tema y la función al Navbar */}
+    <div className="min-vh-100">
       <Navbar tema={tema} toggleTema={toggleTema} />
-
-      {/* Contenedor principal para las páginas */}
       <main className="container py-5">
         <Routes>
           <Route path="/" element={<HomePage />} />

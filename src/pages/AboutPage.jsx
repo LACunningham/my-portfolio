@@ -1,55 +1,52 @@
 import SkillBadge from '../components/SkillBadge';
 
 export const AboutPage = () => {
-  // Datos para renderizar dinámicamente con .map()
   const habilidades = [
-    'HTML5', 'CSS3', 'JavaScript (ES6+)', 'React.js', 
+    'HTML5', 'CSS3', 'JavaScript (ES6+)', 'React.js',
     'Bootstrap', 'Git & GitHub', 'Node.js', 'SQL'
   ];
 
   const experiencia = [
     {
-      puesto: 'Desarrollador Front-End Trainee',
-      empresa: 'Freelance / Proyectos Propios',
-      periodo: '2025 - Presente',
-      descripcion: 'Creación de interfaces web responsivas y funcionales utilizando React y Bootstrap. Control de versiones con Git.'
+      puesto: 'Desarrollador Web Junior',
     }
   ];
 
   const educacion = [
     {
       titulo: 'Curso de Programación Web Full Stack',
-      institucion: 'Institución / Universidad',
-      periodo: '2025',
-      estado: 'Completado'
     },
     {
-      titulo: 'Tecnicatura en Programación / Carrera Afín',
-      institucion: 'Tu Instituto',
-      periodo: 'En curso',
-      estado: 'Cursando'
+      titulo: 'Tecnicatura Superior en Analista de Sistemas',
     }
   ];
 
   return (
-    <div className="container py-3">
+    <div className="container py-3" style={{ animation: 'fadeInUp 0.6s ease-out' }}>
       <h1 className="display-5 fw-bold mb-4">Sobre Mí</h1>
-      
-      {/* 1. Descripción Personal */}
-      <section className="mb-5">
+      <section className="mb-4 text-start">
         <p className="lead">
-          ¡Hola! Soy un apasionado por la tecnología y el desarrollo de software. Me encanta resolver problemas mediante el código y aprender herramientas nuevas todos los días. Mi objetivo actual es insertarme en el mundo laboral para aportar mis conocimientos en React y seguir creciendo profesionalmente.
+          ¡Hola! Soy Luciano, un desarrollador front-end en formación con interés en crear experiencias web limpias y accesibles. Me gusta trabajar con React, optimizar interfaces y aprender nuevas herramientas que mejoren la calidad del código y la experiencia de usuario.
         </p>
+        <p>
+          Actualmente estudio programación y estoy construyendo proyectos personales para practicar patrones modernos de arquitectura web, pruebas básicas y despliegue continuo. Busco oportunidades para aplicar mis conocimientos y seguir aprendiendo.
+        </p>
+        <div className="mt-3 d-flex flex-wrap gap-2">
+          <a href="/resume.pdf" className="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer">Descargar CV</a>
+          <a href="https://github.com/tuusuario" className="btn btn-outline-dark" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/" className="btn btn-outline-primary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
       </section>
 
       <hr />
 
-      {/* 2. Habilidades con Badges (Requisito) */}
       <section className="mb-5">
         <h3 className="mb-3">Mis Habilidades</h3>
-        <div className="d-flex flex-wrap">
+        <div className="d-flex flex-wrap gap-2">
           {habilidades.map((skill, index) => (
-            <SkillBadge key={index} skill={skill} />
+            <div key={index} style={{ animation: `slideIn 0.4s ease-out ${index * 0.08}s backwards` }}>
+              <SkillBadge skill={skill} />
+            </div>
           ))}
         </div>
       </section>
@@ -57,12 +54,15 @@ export const AboutPage = () => {
       <hr />
 
       <div className="row">
-        {/* 3. Experiencia Laboral */}
-        <div className="col-md-6 mb-4">
+        <div className="col-12 col-md-6 mb-4">
           <h3 className="mb-3">Experiencia</h3>
           {experiencia.length > 0 ? (
             experiencia.map((exp, index) => (
-              <div key={index} className="mb-3 p-3 border rounded shadow-sm">
+              <div
+                key={index}
+                className="mb-3 p-3 border rounded shadow-sm"
+                style={{ animation: 'slideIn 0.5s ease-out 0.2s backwards' }}
+              >
                 <h5>{exp.puesto}</h5>
                 <h6 className="text-muted">{exp.empresa} | <small>{exp.periodo}</small></h6>
                 <p className="mb-0 mt-2">{exp.descripcion}</p>
@@ -73,16 +73,18 @@ export const AboutPage = () => {
           )}
         </div>
 
-        {/* 4. Educación */}
-        <div className="col-md-6 mb-4">
+        <div className="col-12 col-md-6 mb-4">
           <h3 className="mb-3">Educación</h3>
           {educacion.map((edu, index) => (
-            <div key={index} className="mb-3 p-3 border rounded shadow-sm">
+            <div
+              key={index}
+              className="mb-3 p-3 border rounded shadow-sm"
+              style={{ animation: 'slideIn 0.5s ease-out 0.3s backwards' }}
+            >
               <h5>{edu.titulo}</h5>
               <h6 className="text-muted">{edu.institucion}</h6>
               <div className="d-flex justify-content-between align-items-center mt-2">
                 <small className="text-secondary">{edu.periodo}</small>
-                {/* Renderizado condicional para destacar si está cursando o completado */}
                 <span className={`badge ${edu.estado === 'Completado' ? 'bg-success' : 'bg-warning text-dark'}`}>
                   {edu.estado}
                 </span>

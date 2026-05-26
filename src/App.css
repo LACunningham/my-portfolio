@@ -17,8 +17,31 @@
   }
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .hero {
   position: relative;
+  animation: fadeInUp 0.6s ease-out;
 
   .base,
   .framework,
@@ -53,6 +76,17 @@
     width: auto;
     transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
       scale(0.8);
+  }
+
+  @media (max-width: 768px) {
+    .framework,
+    .vite {
+      display: none;
+    }
+
+    .base {
+      width: 120px;
+    }
   }
 }
 
@@ -182,3 +216,4 @@
     border-right-color: var(--border);
   }
 }
+
