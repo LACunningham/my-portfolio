@@ -33,8 +33,8 @@ export const AboutPage = () => {
         </p>
         <div className="mt-3 d-flex flex-wrap gap-2">
           <a href="/resume.pdf" className="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer">Descargar CV</a>
-          <a href="https://github.com/tuusuario" className="btn btn-outline-dark" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/" className="btn btn-outline-primary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://github.com/LACunningham/" className="btn btn-outline-dark" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/luciano-agustin-cunningham-martinez-a6ab0a309/" className="btn btn-outline-primary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
       </section>
 

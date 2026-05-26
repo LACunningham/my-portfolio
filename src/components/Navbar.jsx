@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import ThemeToggle from './ThemeToggle';
 
@@ -109,5 +110,10 @@ const Navbar = ({ tema, toggleTema }) => {
     </>
   )
 }
+
+Navbar.propTypes = {
+  tema: PropTypes.string.isRequired,
+  toggleTema: PropTypes.func.isRequired,
+};
 
 export default Navbar;
