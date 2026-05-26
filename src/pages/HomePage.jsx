@@ -9,7 +9,7 @@ const HomePage = () => {
 
   return (
     <div className="row align-items-center justify-content-center min-vh-75 py-4" style={{ animation: 'fadeInUp 0.6s ease-out' }}>
-      {/* Columna de Texto */}
+  
       <div className="col-12 col-md-6 text-center text-md-start mb-4 mb-md-0">
         <h1 className="display-4 fw-bold">Hola, soy Luciano</h1>
         <h2 className="text-muted mb-4">Desarrollador Front-End · Aplicaciones web modernas</h2>
@@ -33,7 +33,7 @@ const HomePage = () => {
         </Link>
       </div>
 
-      {/* Columna de la Imagen */}
+     
       <div className="col-12 col-md-5 text-center">
         <img
           src={heroImg}
@@ -43,7 +43,6 @@ const HomePage = () => {
         />
       </div>
 
-      {/* Proyectos recientes */}
       <div className="col-12 mt-5">
         <h3 className="mb-4">Proyectos recientes</h3>
         <div className="row g-3 g-md-4">

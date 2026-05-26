@@ -8,7 +8,7 @@ const SkillBadge = ({ skill }) => {
   );
 };
 
-// Cumplimos con el requisito de PropTypes
+
 SkillBadge.propTypes = {
   skill: PropTypes.string.isRequired,
 };

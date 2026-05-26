@@ -12,14 +12,11 @@ function App() {
 
   useEffect(() => {
     if (tema === 'dark') {
-      // Activa tu CSS personalizado
       document.documentElement.classList.add('dark');
-      // Activa el modo oscuro interno de Bootstrap
       document.documentElement.setAttribute('data-bs-theme', 'dark');
-    } else {
-      // Desactiva tu CSS personalizado
+    }  
+    else {
       document.documentElement.classList.remove('dark');
-      // Activa el modo claro interno de Bootstrap
       document.documentElement.setAttribute('data-bs-theme', 'light');
     }
   }, [tema]);

@@ -29,7 +29,7 @@ export const AboutPage = () => {
           ¡Hola! Soy Luciano, un desarrollador front-end en formación con interés en crear experiencias web limpias y accesibles. Me gusta trabajar con React, optimizar interfaces y aprender nuevas herramientas que mejoren la calidad del código y la experiencia de usuario.
         </p>
         <p>
-          Actualmente estudio programación y estoy construyendo proyectos personales para practicar patrones modernos de arquitectura web, pruebas básicas y despliegue continuo. Busco oportunidades para aplicar mis conocimientos y seguir aprendiendo.
+          Actualmente estoy estuando la carreda de Anilista de Sistemas y estoy construyendo proyectos personales para practicar patrones modernos de arquitectura web, pruebas básicas y despliegue continuo. Busco oportunidades para aplicar mis conocimientos y seguir aprendiendo.
         </p>
         <div className="mt-3 d-flex flex-wrap gap-2">
           <a href="/resume.pdf" className="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer">Descargar CV</a>

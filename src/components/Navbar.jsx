@@ -25,12 +25,12 @@ const Navbar = ({ tema, toggleTema }) => {
         borderBottom: '1px solid var(--border)',
         flexWrap: 'wrap'
       }}>
-        {/* Logo/Brand */}
+        
         <Link to="/" style={{ color: 'var(--text-h)', textDecoration: 'none', fontWeight: 600, fontSize: '18px' }}>
           Luciano Dev
         </Link>
 
-        {/* Desktop Navigation */}
+       
         <div style={{
           display: 'none',
           gap: '20px',
@@ -55,7 +55,6 @@ const Navbar = ({ tema, toggleTema }) => {
           ))}
         </div>
 
-        {/* Mobile Menu Button & Theme Toggle */}
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <ThemeToggle tema={tema} toggleTema={toggleTema} />
           <button
@@ -77,7 +76,6 @@ const Navbar = ({ tema, toggleTema }) => {
         </div>
       </nav>
 
-      {/* Mobile Navigation Menu */}
       {menuOpen && (
         <div style={{
           display: 'flex',
