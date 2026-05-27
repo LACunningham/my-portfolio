@@ -7,38 +7,42 @@ const ProjectsPage = () => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    try {
-      setTimeout(() => {
-        setProyectos(proyectosData);
-        setCargando(false);
-      }, 500);
-    } catch (error) {
-      console.error('Error cargando proyectos:', error);
+    const timer = setTimeout(() => {
+      setProyectos(proyectosData);
       setCargando(false);
-    }
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="container py-5" style={{ animation: 'fadeInUp 0.6s ease-out' }}>
-      <h1 className="display-5 fw-bold mb-4">Mis Proyectos</h1>
-      <p className="text-muted mb-5">Aquí están algunos de mis proyectos destacados. Cada uno representa mi crecimiento como desarrollador.</p>
+    <div style={{ maxWidth: '960px', margin: '0 auto', padding: '48px 24px', animation: 'fadeInUp 0.6s ease-out' }}>
+      <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '12px' }}>Mis Proyectos</h1>
+      <p style={{ color: 'var(--text-secondary)', marginBottom: '40px', fontSize: '0.95rem' }}>
+        Estos son algunos de mis proyectos destacados. Cada uno representa mi crecimiento como desarrollador.
+      </p>
 
       {cargando && (
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Cargando...</span>
-          </div>
-          <p className="mt-3 text-muted">Cargando proyectos...</p>
+        <div style={{ textAlign: 'center', padding: '60px 0' }}>
+          <div style={{
+            width: '32px',
+            height: '32px',
+            border: '3px solid var(--border)',
+            borderTopColor: 'var(--accent)',
+            borderRadius: '50%',
+            animation: 'spin 0.8s linear infinite',
+            margin: '0 auto 16px'
+          }} />
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Cargando proyectos...</p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
 
       {!cargando && (
-        <div className="row g-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
           {proyectos.length > 0 ? (
             proyectos.map((proyecto, idx) => (
               <div
                 key={proyecto.id}
-                className="col-12 col-sm-6 col-lg-4"
                 style={{ animation: `slideIn 0.5s ease-out ${idx * 0.1}s backwards` }}
               >
                 <ProjectCard
@@ -51,8 +55,8 @@ const ProjectsPage = () => {
               </div>
             ))
           ) : (
-            <div className="col-12 text-center py-5">
-              <p className="text-muted">No hay proyectos disponibles por el momento.</p>
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 0' }}>
+              <p style={{ color: 'var(--text-secondary)' }}>No hay proyectos disponibles por el momento.</p>
             </div>
           )}
         </div>

@@ -28,16 +28,9 @@ const formularioReducer = (state, action) => {
 };
 
 const isFieldValid = (name, value) => {
-  if (name === 'nombre') {
-    return value.trim().length >= 3;
-  }
-  if (name === 'email') {
-    const regexEmail = /^[a-zA-Z0-9._-]{2,50}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return regexEmail.test(value);
-  }
-  if (name === 'mensaje') {
-    return value.trim().length >= 10;
-  }
+  if (name === 'nombre') return value.trim().length >= 3;
+  if (name === 'email') return /^[a-zA-Z0-9._-]{2,50}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value);
+  if (name === 'mensaje') return value.trim().length >= 10;
   return false;
 };
 
@@ -51,38 +44,24 @@ export const ContactPage = () => {
     const nuevosErrores = {};
     const regexEmail = /^[a-zA-Z0-9._-]{2,50}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    if (!state.nombre.trim()) {
-      nuevosErrores.nombre = 'El nombre es obligatorio.';
-    } else if (state.nombre.trim().length < 3) {
-      nuevosErrores.nombre = 'El nombre debe tener al menos 3 caracteres.';
-    }
+    if (!state.nombre.trim()) nuevosErrores.nombre = 'El nombre es obligatorio.';
+    else if (state.nombre.trim().length < 3) nuevosErrores.nombre = 'El nombre debe tener al menos 3 caracteres.';
 
-    if (!state.email.trim()) {
-      nuevosErrores.email = 'El correo electrónico es obligatorio.';
-    } else if (!regexEmail.test(state.email)) {
-      nuevosErrores.email = 'El formato del correo no es válido.';
-    }
+    if (!state.email.trim()) nuevosErrores.email = 'El correo electrónico es obligatorio.';
+    else if (!regexEmail.test(state.email)) nuevosErrores.email = 'El formato del correo no es válido.';
 
-    if (!state.mensaje.trim()) {
-      nuevosErrores.mensaje = 'El mensaje no puede estar vacío.';
-    } else if (state.mensaje.trim().length < 10) {
-      nuevosErrores.mensaje = 'El mensaje debe ser más descriptivo (mínimo 10 caracteres).';
-    }
+    if (!state.mensaje.trim()) nuevosErrores.mensaje = 'El mensaje no puede estar vacío.';
+    else if (state.mensaje.trim().length < 10) nuevosErrores.mensaje = 'El mensaje debe ser más descriptivo (mínimo 10 caracteres).';
 
     return nuevosErrores;
   };
 
   const handleChange = (e) => {
-    dispatch({
-      type: 'CAMBIAR_CAMPO',
-      name: e.target.name,
-      value: e.target.value
-    });
+    dispatch({ type: 'CAMBIAR_CAMPO', name: e.target.name, value: e.target.value });
   };
 
   const handleBlur = () => {
-    const erroresValidacion = validarFormulario();
-    dispatch({ type: 'SET_ERRORES', payload: erroresValidacion });
+    dispatch({ type: 'SET_ERRORES', payload: validarFormulario() });
   };
 
   const handleSubmit = async (e) => {
@@ -109,186 +88,217 @@ export const ContactPage = () => {
 
   const caracteresRestantes = 500 - state.mensaje.length;
 
+  const inputStyle = {
+    width: '100%',
+    padding: '10px 14px',
+    fontSize: '0.95rem',
+    fontFamily: 'var(--sans)',
+    color: 'var(--text-heading)',
+    backgroundColor: 'var(--bg-card)',
+    border: '1px solid var(--border)',
+    borderRadius: '8px',
+    outline: 'none',
+    transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+    boxSizing: 'border-box'
+  };
+
+  const inputFocusStyle = {
+    borderColor: 'var(--accent-border)',
+    boxShadow: '0 0 0 3px var(--accent-light)'
+  };
+
+  const labelStyle = {
+    display: 'block',
+    fontSize: '0.85rem',
+    fontWeight: 500,
+    color: 'var(--text-heading)',
+    marginBottom: '6px'
+  };
+
   return (
-    <div style={{ animation: 'fadeInUp 0.6s ease-out' }}>
-      <div className="container py-3" style={{ maxWidth: '600px' }}>
-        <h1 className="display-5 fw-bold mb-2 text-center">Ponte en contacto</h1>
-        <p className="text-center text-muted mb-5" style={{ fontSize: '16px' }}>
-          ¿Tenés alguna propuesta, duda o simplemente querés saludar? ¡Escribime! Respondo en las siguientes 24 horas.
-        </p>
+    <div style={{ maxWidth: '560px', margin: '0 auto', padding: '48px 24px', animation: 'fadeInUp 0.6s ease-out' }}>
+      <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '8px', textAlign: 'center' }}>Contacto</h1>
+      <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '36px' }}>
+        ¿Tenés alguna propuesta o duda? Escribime y te responderé a la brevedad.
+      </p>
 
-        {enviado && (
-          <div
-            className="alert alert-success text-center fw-bold mb-4"
-            role="alert"
-            style={{
-              animation: 'slideIn 0.3s ease-out, fadeInUp 0.3s ease-out 2.7s backwards',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px'
-            }}
-          >
-            <span style={{ fontSize: '24px' }}>✓</span>
-            ¡Mensaje enviado con éxito! Me pondré en contacto pronto.
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} noValidate style={{ animation: 'slideIn 0.5s ease-out' }}>
-          {/* Campo Nombre */}
-          <div className="mb-4">
-            <label htmlFor="nombre" className="form-label d-flex align-items-center gap-2">
-              <span>👤 Nombre Completo</span>
-              {isFieldValid('nombre', state.nombre) && <span style={{ color: 'var(--accent)' }}>✓</span>}
-            </label>
-            <input
-              ref={state.errores.nombre ? firstErrorRef : null}
-              type="text"
-              className={`form-control ${state.errores.nombre ? 'is-invalid' : ''}`}
-              id="nombre"
-              name="nombre"
-              value={state.nombre}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Juan Pérez"
-              style={{
-                transition: 'border-color 0.3s, box-shadow 0.3s',
-                borderColor: state.errores.nombre ? '#dc3545' : isFieldValid('nombre', state.nombre) ? 'var(--accent)' : undefined
-              }}
-              disabled={cargando}
-            />
-            {state.errores.nombre && (
-              <div className="invalid-feedback d-block" style={{ fontSize: '14px' }}>
-                {state.errores.nombre}
-              </div>
-            )}
-            <small className="text-muted" style={{ display: 'block', marginTop: '4px' }}>
-              Mínimo 3 caracteres
-            </small>
-          </div>
-
-          {/* Campo Email */}
-          <div className="mb-4">
-            <label htmlFor="email" className="form-label d-flex align-items-center gap-2">
-              <span>📧 Correo Electrónico</span>
-              {isFieldValid('email', state.email) && <span style={{ color: 'var(--accent)' }}>✓</span>}
-            </label>
-            <input
-              type="email"
-              className={`form-control ${state.errores.email ? 'is-invalid' : ''}`}
-              id="email"
-              name="email"
-              value={state.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="nombre@correo.com"
-              style={{
-                transition: 'border-color 0.3s, box-shadow 0.3s',
-                borderColor: state.errores.email ? '#dc3545' : isFieldValid('email', state.email) ? 'var(--accent)' : undefined
-              }}
-              disabled={cargando}
-            />
-            {state.errores.email && (
-              <div className="invalid-feedback d-block" style={{ fontSize: '14px' }}>
-                {state.errores.email}
-              </div>
-            )}
-            <small className="text-muted" style={{ display: 'block', marginTop: '4px' }}>
-              Usado para responderte
-            </small>
-          </div>
-
-          {/* Campo Mensaje */}
-          <div className="mb-4">
-            <label htmlFor="mensaje" className="form-label d-flex align-items-center gap-2 justify-content-between">
-              <span>
-                💬 Mensaje
-                {isFieldValid('mensaje', state.mensaje) && <span style={{ color: 'var(--accent)' }}>✓</span>}
-              </span>
-              <small style={{
-                color: caracteresRestantes < 50 ? '#dc3545' : 'var(--text)',
-                transition: 'color 0.3s'
-              }}>
-                {caracteresRestantes} caracteres
-              </small>
-            </label>
-            <textarea
-              className={`form-control ${state.errores.mensaje ? 'is-invalid' : ''}`}
-              id="mensaje"
-              name="mensaje"
-              rows="5"
-              maxLength={500}
-              value={state.mensaje}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Escribí tu mensaje acá..."
-              style={{
-                transition: 'border-color 0.3s, box-shadow 0.3s',
-                borderColor: state.errores.mensaje ? '#dc3545' : isFieldValid('mensaje', state.mensaje) ? 'var(--accent)' : undefined,
-                resize: 'vertical'
-              }}
-              disabled={cargando}
-            />
-            {state.errores.mensaje && (
-              <div className="invalid-feedback d-block" style={{ fontSize: '14px' }}>
-                {state.errores.mensaje}
-              </div>
-            )}
-            <small className="text-muted" style={{ display: 'block', marginTop: '4px' }}>
-              Mínimo 10 caracteres
-            </small>
-          </div>
-
-          {/* Botones */}
-          <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-            <button
-              type="submit"
-              className="btn btn-primary flex-grow-1"
-              disabled={cargando}
-              style={{
-                animation: 'slideIn 0.5s ease-out 0.1s backwards',
-                opacity: cargando ? 0.6 : 1,
-                transition: 'opacity 0.3s'
-              }}
-            >
-              {cargando ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Enviando...
-                </>
-              ) : (
-                'Enviar Mensaje'
-              )}
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={handleLimpiar}
-              disabled={cargando}
-              style={{
-                animation: 'slideIn 0.5s ease-out 0.2s backwards',
-                opacity: cargando ? 0.6 : 1,
-                transition: 'opacity 0.3s'
-              }}
-            >
-              Limpiar
-            </button>
-          </div>
-        </form>
-
+      {enviado && (
         <div style={{
-          marginTop: '32px',
-          padding: '20px',
-          backgroundColor: 'var(--accent-bg)',
+          padding: '14px 20px',
+          backgroundColor: 'rgba(74, 124, 89, 0.1)',
+          border: '1px solid var(--success)',
           borderRadius: '8px',
-          animation: 'slideIn 0.5s ease-out 0.3s backwards'
+          color: 'var(--success)',
+          fontSize: '0.9rem',
+          fontWeight: 500,
+          textAlign: 'center',
+          marginBottom: '24px',
+          animation: 'slideIn 0.3s ease-out'
         }}>
-          <h6 style={{ marginBottom: '12px', color: 'var(--text-h)' }}>📞 Otras formas de contactarme</h6>
-          <div style={{ fontSize: '14px', color: 'var(--text)' }}>
-            <p style={{ margin: '4px 0' }}>📧 Email: tu@email.com</p>
-            <p style={{ margin: '4px 0' }}>💼 LinkedIn: <a href="#" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Mi perfil</a></p>
-            <p style={{ margin: '4px 0' }}>🐙 GitHub: <a href="#" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Mi repositorio</a></p>
+          Mensaje enviado con éxito. Me pondré en contacto pronto.
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} noValidate>
+        <div style={{ marginBottom: '20px' }}>
+          <label htmlFor="nombre" style={labelStyle}>
+            Nombre completo
+          </label>
+          <input
+            ref={state.errores.nombre ? firstErrorRef : null}
+            type="text"
+            id="nombre"
+            name="nombre"
+            value={state.nombre}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="Juan Pérez"
+            style={{
+              ...inputStyle,
+              borderColor: state.errores.nombre ? '#c0392b' : isFieldValid('nombre', state.nombre) ? 'var(--success)' : 'var(--border)'
+            }}
+            disabled={cargando}
+            onFocus={(e) => { if (!state.errores.nombre) { e.target.style.borderColor = inputFocusStyle.borderColor; e.target.style.boxShadow = inputFocusStyle.boxShadow; } }}
+            onBlurCapture={(e) => { if (!state.errores.nombre) { e.target.style.borderColor = isFieldValid('nombre', state.nombre) ? 'var(--success)' : 'var(--border)'; e.target.style.boxShadow = 'none'; } }}
+          />
+          {state.errores.nombre && (
+            <p style={{ fontSize: '0.8rem', color: '#c0392b', margin: '4px 0 0' }}>{state.errores.nombre}</p>
+          )}
+        </div>
+
+        <div style={{ marginBottom: '20px' }}>
+          <label htmlFor="email" style={labelStyle}>
+            Correo electrónico
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={state.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="nombre@correo.com"
+            style={{
+              ...inputStyle,
+              borderColor: state.errores.email ? '#c0392b' : isFieldValid('email', state.email) ? 'var(--success)' : 'var(--border)'
+            }}
+            disabled={cargando}
+            onFocus={(e) => { if (!state.errores.email) { e.target.style.borderColor = inputFocusStyle.borderColor; e.target.style.boxShadow = inputFocusStyle.boxShadow; } }}
+            onBlurCapture={(e) => { if (!state.errores.email) { e.target.style.borderColor = isFieldValid('email', state.email) ? 'var(--success)' : 'var(--border)'; e.target.style.boxShadow = 'none'; } }}
+          />
+          {state.errores.email && (
+            <p style={{ fontSize: '0.8rem', color: '#c0392b', margin: '4px 0 0' }}>{state.errores.email}</p>
+          )}
+        </div>
+
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <label htmlFor="mensaje" style={labelStyle}>Mensaje</label>
+            <span style={{
+              fontSize: '0.78rem',
+              color: caracteresRestantes < 50 ? '#c0392b' : 'var(--text-secondary)',
+              transition: 'color 0.2s'
+            }}>
+              {caracteresRestantes} caracteres
+            </span>
           </div>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            rows="5"
+            maxLength={500}
+            value={state.mensaje}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="Escribí tu mensaje acá..."
+            style={{
+              ...inputStyle,
+              resize: 'vertical',
+              minHeight: '120px',
+              borderColor: state.errores.mensaje ? '#c0392b' : isFieldValid('mensaje', state.mensaje) ? 'var(--success)' : 'var(--border)'
+            }}
+            disabled={cargando}
+            onFocus={(e) => { if (!state.errores.mensaje) { e.target.style.borderColor = inputFocusStyle.borderColor; e.target.style.boxShadow = inputFocusStyle.boxShadow; } }}
+            onBlurCapture={(e) => { if (!state.errores.mensaje) { e.target.style.borderColor = isFieldValid('mensaje', state.mensaje) ? 'var(--success)' : 'var(--border)'; e.target.style.boxShadow = 'none'; } }}
+          />
+          {state.errores.mensaje && (
+            <p style={{ fontSize: '0.8rem', color: '#c0392b', margin: '4px 0 0' }}>{state.errores.mensaje}</p>
+          )}
+        </div>
+
+        <div style={{ display: 'flex', gap: '12px', marginTop: '28px' }}>
+          <button
+            type="submit"
+            disabled={cargando}
+            style={{
+              flex: 1,
+              padding: '12px 24px',
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              color: '#fff',
+              backgroundColor: 'var(--accent)',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: cargando ? 'not-allowed' : 'pointer',
+              opacity: cargando ? 0.6 : 1,
+              transition: 'background-color 0.2s ease, opacity 0.2s ease'
+            }}
+            onMouseEnter={(e) => { if (!cargando) e.target.style.backgroundColor = 'var(--accent-hover)'; }}
+            onMouseLeave={(e) => { if (!cargando) e.target.style.backgroundColor = 'var(--accent)'; }}
+          >
+            {cargando ? (
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <span style={{
+                  display: 'inline-block',
+                  width: '16px',
+                  height: '16px',
+                  border: '2px solid rgba(255,255,255,0.3)',
+                  borderTopColor: '#fff',
+                  borderRadius: '50%',
+                  animation: 'spin 0.8s linear infinite'
+                }} />
+                Enviando...
+              </span>
+            ) : 'Enviar mensaje'}
+          </button>
+          <button
+            type="button"
+            onClick={handleLimpiar}
+            disabled={cargando}
+            style={{
+              padding: '12px 24px',
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              color: 'var(--text-secondary)',
+              backgroundColor: 'transparent',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+              cursor: cargando ? 'not-allowed' : 'pointer',
+              opacity: cargando ? 0.6 : 1,
+              transition: 'border-color 0.2s ease, color 0.2s ease'
+            }}
+            onMouseEnter={(e) => { if (!cargando) { e.target.style.borderColor = 'var(--text-secondary)'; e.target.style.color = 'var(--text-heading)'; } }}
+            onMouseLeave={(e) => { if (!cargando) { e.target.style.borderColor = 'var(--border)'; e.target.style.color = 'var(--text-secondary)'; } }}
+          >
+            Limpiar
+          </button>
+        </div>
+      </form>
+
+      <div style={{
+        marginTop: '40px',
+        padding: '20px',
+        backgroundColor: 'var(--accent-light)',
+        borderRadius: '8px',
+        border: '1px solid var(--accent-border)'
+      }}>
+        <h6 style={{ margin: '0 0 12px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-heading)' }}>
+          Otras formas de contacto
+        </h6>
+        <div style={{ fontSize: '0.85rem', color: 'var(--text)', lineHeight: 2 }}>
+          <span>Email: tu@email.com</span><br />
+          <span>LinkedIn: <a href="https://www.linkedin.com/in/luciano-agustin-cunningham-martinez-a6ab0a309/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Mi perfil</a></span><br />
+          <span>GitHub: <a href="https://github.com/LACunningham/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Mi repositorio</a></span>
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 
 const Navbar = ({ tema, toggleTema }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navLinks = [
     { to: '/', label: 'Inicio' },
@@ -13,50 +14,61 @@ const Navbar = ({ tema, toggleTema }) => {
     { to: '/contact', label: 'Contacto' }
   ];
 
+  const isActive = (path) => location.pathname === path;
+
   return (
     <>
       <nav style={{
         display: 'flex',
-        gap: '15px',
-        padding: '12px 18px',
-        backgroundColor: 'var(--bg)',
-        color: 'var(--text-h)',
-        justifyContent: 'space-between',
         alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 24px',
+        height: '60px',
+        backgroundColor: 'var(--bg)',
         borderBottom: '1px solid var(--border)',
-        flexWrap: 'wrap'
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        backdropFilter: 'blur(8px)',
+        backgroundClip: 'padding-box'
       }}>
-        
-        <Link to="/" style={{ color: 'var(--text-h)', textDecoration: 'none', fontWeight: 600, fontSize: '18px' }}>
-          Luciano Dev
+        <Link to="/" style={{
+          color: 'var(--text-heading)',
+          textDecoration: 'none',
+          fontWeight: 600,
+          fontSize: '1.1rem',
+          letterSpacing: '-0.01em'
+        }}>
+          Luciano Cunningham
         </Link>
 
-       
         <div style={{
-          display: 'none',
-          gap: '20px',
+          display: 'flex',
           alignItems: 'center',
-          '@media (min-width: 768px)': { display: 'flex' }
+          gap: '32px'
         }} className="d-none d-md-flex">
           {navLinks.map(link => (
             <Link
               key={link.to}
               to={link.to}
               style={{
-                color: 'var(--text-h)',
+                color: isActive(link.to) ? 'var(--text-heading)' : 'var(--text-secondary)',
                 textDecoration: 'none',
-                transition: 'opacity 0.3s',
-                fontSize: '16px'
+                fontSize: '0.9rem',
+                fontWeight: isActive(link.to) ? 500 : 400,
+                transition: 'color 0.2s ease',
+                position: 'relative',
+                padding: '4px 0'
               }}
-              onMouseEnter={(e) => e.target.style.opacity = '0.7'}
-              onMouseLeave={(e) => e.target.style.opacity = '1'}
+              onMouseEnter={(e) => { if (!isActive(link.to)) e.target.style.color = 'var(--text-heading)'; }}
+              onMouseLeave={(e) => { if (!isActive(link.to)) e.target.style.color = 'var(--text-secondary)'; }}
             >
               {link.label}
             </Link>
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <ThemeToggle tema={tema} toggleTema={toggleTema} />
           <button
             className="d-md-none"
@@ -64,13 +76,14 @@ const Navbar = ({ tema, toggleTema }) => {
             style={{
               background: 'transparent',
               border: '1px solid var(--border)',
-              color: 'var(--text-h)',
+              color: 'var(--text-heading)',
               padding: '6px 10px',
               borderRadius: 6,
               cursor: 'pointer',
-              fontSize: '18px'
+              fontSize: '1.1rem',
+              lineHeight: 1
             }}
-            aria-label="Toggle menu"
+            aria-label="Abrir menú"
           >
             {menuOpen ? '✕' : '☰'}
           </button>
@@ -81,11 +94,10 @@ const Navbar = ({ tema, toggleTema }) => {
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '0',
-          padding: '16px',
-          backgroundColor: 'var(--bg)',
+          padding: '8px 0',
+          backgroundColor: 'var(--bg-card)',
           borderBottom: '1px solid var(--border)',
-          animation: 'slideIn 0.3s ease-out'
+          animation: 'slideIn 0.25s ease-out'
         }} className="d-md-none">
           {navLinks.map(link => (
             <Link
@@ -93,14 +105,16 @@ const Navbar = ({ tema, toggleTema }) => {
               to={link.to}
               onClick={() => setMenuOpen(false)}
               style={{
-                color: 'var(--text-h)',
+                color: isActive(link.to) ? 'var(--text-heading)' : 'var(--text)',
                 textDecoration: 'none',
-                padding: '12px 0',
-                borderBottom: '1px solid var(--border)',
-                transition: 'color 0.3s'
+                padding: '12px 24px',
+                fontSize: '0.95rem',
+                fontWeight: isActive(link.to) ? 500 : 400,
+                transition: 'background 0.2s ease',
+                background: isActive(link.to) ? 'var(--accent-light)' : 'transparent'
               }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--accent)'}
-              onMouseLeave={(e) => e.target.style.color = 'var(--text-h)'}
+              onMouseEnter={(e) => { e.target.style.background = 'var(--accent-light)'; }}
+              onMouseLeave={(e) => { if (!isActive(link.to)) e.target.style.background = 'transparent'; }}
             >
               {link.label}
             </Link>
@@ -108,8 +122,8 @@ const Navbar = ({ tema, toggleTema }) => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
 Navbar.propTypes = {
   tema: PropTypes.string.isRequired,
