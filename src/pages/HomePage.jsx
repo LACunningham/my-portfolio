@@ -1,9 +1,24 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SkillBadge from '../components/SkillBadge';
 import ProjectCard from '../components/ProjectCard';
-import proyectos from '../data/proyectos.json';
 
 const HomePage = () => {
+  const [proyectos, setProyectos] = useState([]);
+
+  useEffect(() => {
+    const fetchProyectos = async () => {
+      try {
+        const res = await fetch('./data/proyectos.json');
+        const data = await res.json();
+        setProyectos(data);
+      } catch {
+        setProyectos([]);
+      }
+    };
+    fetchProyectos();
+  }, []);
+
   const habilidadesPrincipales = ['React', 'JavaScript', 'Bootstrap', 'HTML5', 'CSS3', 'Git'];
 
   return (

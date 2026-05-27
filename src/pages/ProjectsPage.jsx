@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
 import ProjectCard from '../components/ProjectCard';
-import proyectosData from '../data/proyectos.json';
 
 const ProjectsPage = () => {
   const [proyectos, setProyectos] = useState([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setProyectos(proyectosData);
-      setCargando(false);
-    }, 500);
+    const fetchProyectos = async () => {
+      try {
+        const res = await fetch('./data/proyectos.json');
+        const data = await res.json();
+        setProyectos(data);
+      } catch {
+        setProyectos([]);
+      } finally {
+        setCargando(false);
+      }
+    };
+    const timer = setTimeout(fetchProyectos, 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -45,13 +52,7 @@ const ProjectsPage = () => {
                 key={proyecto.id}
                 style={{ animation: `slideIn 0.5s ease-out ${idx * 0.1}s backwards` }}
               >
-                <ProjectCard
-                  titulo={proyecto.titulo}
-                  descripcion={proyecto.descripcion}
-                  tecnologias={proyecto.tecnologias}
-                  enlace={proyecto.enlace}
-                  imagen={proyecto.imagen}
-                />
+                <ProjectCard {...proyecto} />
               </div>
             ))
           ) : (
