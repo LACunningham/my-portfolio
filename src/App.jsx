@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
+import NotFoundPage from './pages/NotFoundPage';
 import { ContactPage } from './pages/ContactPage';
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<div style={{ textAlign: 'center', padding: '80px 24px' }}><h1 style={{ fontSize: '3rem', fontWeight: 700, marginBottom: '12px' }}>404</h1><p style={{ color: 'var(--text-secondary)' }}>Página no encontrada</p></div>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
     </div>
