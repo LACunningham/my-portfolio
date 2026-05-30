@@ -296,7 +296,7 @@ export const ContactPage = () => {
           Otras formas de contacto
         </h6>
         <div style={{ fontSize: '0.85rem', color: 'var(--text)', lineHeight: 2 }}>
-          <span>Email: tu@email.com</span><br />
+          <span>Email: luciano.cu97@gmail.com</span><br />
           <span>LinkedIn: <a href="https://www.linkedin.com/in/luciano-agustin-cunningham-martinez-a6ab0a309/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Mi perfil</a></span><br />
           <span>GitHub: <a href="https://github.com/LACunningham/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Mi repositorio</a></span>
         </div>
