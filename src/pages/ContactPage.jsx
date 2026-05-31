@@ -152,7 +152,7 @@ export const ContactPage = () => {
             value={state.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="Juan Pérez"
+            placeholder="Mark Greyson"
             style={{
               ...inputStyle,
               borderColor: state.errores.nombre ? '#c0392b' : isFieldValid('nombre', state.nombre) ? 'var(--success)' : 'var(--border)'

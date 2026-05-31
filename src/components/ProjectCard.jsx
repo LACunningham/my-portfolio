@@ -49,7 +49,7 @@ const ProjectCard = ({ id, titulo, descripcion, tecnologias, enlace, imagen }) =
         )}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <Link
-            to={`/projects/${id}`}
+            to={titulo === 'Mi Portafolio' ? '/nonexistent' : `/projects/${id}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

@@ -10,14 +10,14 @@ export const AboutPage = () => {
 
   const educacion = [
     {
-      titulo: 'Curso de Programación Web Full Stack',
-      institucion: 'Institución',
+      titulo: 'Curso de Programación Web Front End',
+      institucion: 'Udemy',
       periodo: '2024 - 2025',
       estado: 'Completado'
     },
     {
       titulo: 'Tecnicatura Superior en Analista de Sistemas',
-      institucion: 'Institución',
+      institucion: 'Institución Cervantes',
       periodo: '2023 - 2025',
       estado: 'En curso'
     }
